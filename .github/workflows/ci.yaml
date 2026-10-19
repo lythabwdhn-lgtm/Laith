@@ -1,3 +1,28 @@
+name: CI/CD Pipeline Investigation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # ============================================================
+  # TASK 1.1 — THE GREEN BUILD THAT LIES
+  # ============================================================
+  # The application compiles successfully, but does it work?
+  #
+  # Your mission:
+  #   1. Add a functional test after compilation.
+  #   2. Run the application with the required inputs.
+  #   3. Compare its output with the expected result.
+  #   4. Investigate and fix any unexpected behavior.
+  #
+  # Instructions: docs/task1-1.md
+  # ============================================================
+
+  task1-test:
+    runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -39,7 +64,7 @@
       - name: Build Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ./expo # Do not change it to sdo-expo its the folder name :D
+          context: ./expo
           load: true
           tags: sdo-expo:1.0
 
@@ -70,15 +95,18 @@
   # TASK 2 — WEBSITE INVESTIGATION
   # Independent job, same workflow; both investigations run on push.
   # ============================================================
+
   task2-website:
     # TASK 2.1–2.3: Investigate the website in the same CI pipeline.
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
       # TASK 2.1 — BUILD THE WEBSITE
       # Confirm that the C server compiles, then build its Docker image.
       # Case file: docs/task2-1.md
+
       - name: Compile web server
         run: gcc -Wall -Wextra -o /tmp/sdo-server website/server.c
 
