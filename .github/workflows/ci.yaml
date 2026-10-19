@@ -1,35 +1,14 @@
-name: CI/CD Pipeline Investigation
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-
-jobs:
-  # ============================================================
-  # TASK 1.1 — THE GREEN BUILD THAT LIES
-  # ============================================================
-  # The application compiles successfully, but does it work?
-  #
-  # Your mission:
-  #   1. Add a functional test after compilation.
-  #   2. Run the application with the required inputs.
-  #   3. Compare its output with the expected result.
-  #   4. Investigate and fix any unexpected behavior.
-  #
-  # Instructions: docs/task1-1.md
-  # ============================================================
-
-  task1-test:
-    runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
       - name: Compile C application
         run: gcc expo/expo.c -lm -o sdo-expo
 
-      # TASK 1.1: Add your functional test step here.
+      - name: Test exponentiation
+        run: |
+          output=$(./sdo-expo 2 10)
+          echo "Actual output: $output"
+          test "$output" = "2 ^ 10 = 1024"
 
   # ============================================================
   # TASK 1.2 — THE UNPROTECTED DOCKER BUILD
